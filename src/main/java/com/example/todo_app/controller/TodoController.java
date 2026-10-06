@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class TodoController {
@@ -23,5 +24,11 @@ public class TodoController {
         List<Todo> todos = todoService.findAll();
         model.addAttribute("todos", todos);
         return "todos";
+    }
+
+    @PostMapping("/todos")
+    public String create(Todo todo) {
+        todoService.save(todo);
+        return "redirect:/todos";
     }
 }

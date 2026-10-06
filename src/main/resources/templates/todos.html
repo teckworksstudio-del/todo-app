@@ -8,6 +8,27 @@
 
     <h1>Todo List</h1>
 
+    <form th:action="@{/todos}" method="post">
+
+        <div>
+            <label>タイトル</label>
+            <input type="text" name="title">
+        </div>
+
+        <div>
+            <label>説明</label>
+            <textarea name="description"></textarea>
+        </div>
+
+        <div>
+            <label>期限</label>
+            <input type="date" name="dueDate">
+        </div>
+
+        <button type="submit">登録</button>
+
+    </form>
+
     <ul>
         <li th:each="todo : ${todos}">
             <span th:text="${todo.title}"></span>
