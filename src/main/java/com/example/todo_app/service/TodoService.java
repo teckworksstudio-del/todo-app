@@ -23,4 +23,10 @@ public class TodoService {
     public void save(Todo todo){
         todoRepository.save(todo);
     }
+
+    public void toggleCompleted(Long id) {
+        Todo todo = todoRepository.findById(id).orElseThrow();
+        todo.setCompleted(!todo.isCompleted());
+        todoRepository.save(todo);
+    }
 }

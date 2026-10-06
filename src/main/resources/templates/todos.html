@@ -2,40 +2,101 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .todo-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .todo-form input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+
+        .todo-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .todo-title {
+            font-size: 18px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .toggle-form {
+            margin-left: 20px;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Todo List</h1>
+<h1>Todo List</h1>
+<form class="todo-form" th:action="@{/todos}" method="post">
+    <input type="text"
+           name="title"
+           placeholder="Todoを入力してください"
+           required>
 
-    <form th:action="@{/todos}" method="post">
+    <button type="submit">追加</button>
+</form>
+<ul class="todo-list">
 
-        <div>
-            <label>タイトル</label>
-            <input type="text" name="title">
-        </div>
+    <li class="todo-item" th:each="todo : ${todos}">
 
-        <div>
-            <label>説明</label>
-            <textarea name="description"></textarea>
-        </div>
+        <span class="todo-title"
+              th:text="${todo.title}"
+              th:classappend="${todo.completed} ? ' completed' : ''">
+            Todoタイトル
+        </span>
 
-        <div>
-            <label>期限</label>
-            <input type="date" name="dueDate">
-        </div>
+        <form class="toggle-form"
+              th:action="@{/todos/{id}/toggle(id=${todo.id})}"
+              method="post">
 
-        <button type="submit">登録</button>
+            <button type="submit"
+                    th:text="${todo.completed} ? '未完了に戻す' : '完了'">
+                完了
+            </button>
 
-    </form>
+        </form>
 
-    <ul>
-        <li th:each="todo : ${todos}">
-            <span th:text="${todo.title}"></span>
-            <span th:if="${todo.dueDate != null}"
-                  th:text="'期限: ' + ${todo.dueDate}"></span>
-        </li>
-    </ul>
+    </li>
+
+</ul>
 
 </body>
 </html>
