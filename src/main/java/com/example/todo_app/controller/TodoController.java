@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import com.example.todo_app.entity.Todo;
 import com.example.todo_app.service.TodoService;
 import java.util.List;
+import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -18,8 +19,9 @@ public class TodoController {
     }
 
     @GetMapping("/todos")
-    public String index() {
+    public String index(Model model) {
         List<Todo> todos = todoService.findAll();
+        model.addAttribute("todos", todos);
         return "todos";
     }
 }
